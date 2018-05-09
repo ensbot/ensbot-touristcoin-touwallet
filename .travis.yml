@@ -1,0 +1,26 @@
+language: node_js
+sudo: required
+dist: trusty
+node_js: '7'
+env: CXX=g++-4.8
+addons:
+  apt:
+    sources: ubuntu-toolchain-r-test
+    packages: g++-4.8 libnotify-bin
+before_script: npm install -g gulp
+script:
+- gulp prep
+before_deploy:
+- mkdir deploy
+- gulp travisZip
+deploy:
+  provider: releases
+  api_key:
+    secure: J+CgIoE/OFYp5bUyWcjh6Ur8pKaeCtBkELLeytaRPF5OKMUsPo9dixegegc8rn3toExuJkCNHIMZGGQMTYZtTOYuUgePRRbVGbQJ0YpSqKWrEQfvs6TnyDblGASELSlvJdlBLGXnkAkjUpqkiTemaG4WVGEJOnOmLhcO3R3npYwkcmgTgkquClrbCJDLgHchDOwiDwFMIagyeHhOdL5jSyvQfFFnpbLgIk7pPzvYGMuCQ4MaJu4gocnQsUnq+cknKo4yOi5f5t1YR+a97qxIrihIXOZzT2LtFXr2EGx9tgLSRdmDFy5d9zKpFh1Ezrhdf9Br39Yhif1p1owzYxSjkLBY+VRQ/qWXgEY2lvcbUak4odlsvJT4+7EsnupLQ5cyH4Wo68BelgbrgY0CyMVgmQS/IBA4mVi9ufsX7G2Ka19EHMlXV1UeSyzuucTndmg5OCafzUqlckJ/cXQKMpJzI/j81+ZUI8U/VK/TBsQLbDJcu5UWLiWN4dtINn+kuYxLlNeDNmA5t2vhmN3A9VJpkeoNLkowax60zwxplrmmxvNi8kUheQq6LjfkFbTZ0ZtHNIxmDrm/HYRC11eYh721pUzzMaHm0SGE0LDnXdJL9T4TNznNhFcOHzpVeYOmNT4LmD3AYH3DDwWIXMQct+kBlCyvuhQH/+4M/Zw1SSzibYM=
+  file_glob: true
+  file: deploy/*
+  skip_cleanup: true
+  on:
+    repo: touristcoin/touwallet
+    branch: master
+    tags: true
